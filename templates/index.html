@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <h1>💸 Expense<span>Tracker</span></h1>
+      <a class="btn btn-ghost" href="/export">⬇ Export CSV</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Summary cards -->
+    <section class="cards">
+      <div class="card stat"><p>Total spent</p><h2 id="stat-total">-</h2></div>
+      <div class="card stat"><p>This month</p><h2 id="stat-month">-</h2></div>
+      <div class="card stat"><p>Transactions</p><h2 id="stat-count">-</h2></div>
+      <div class="card stat"><p>Top category</p><h2 id="stat-top">-</h2></div>
+    </section>
+
+    <!-- Add form + charts -->
+    <section class="grid-2">
+      <div class="card">
+        <h3>Add expense</h3>
+        <form id="expense-form" autocomplete="off">
+          <label>Date
+            <input type="date" id="date" required>
+          </label>
+          <label>Category
+            <input type="text" id="category" list="category-list" placeholder="Food, Travel, Books..." required>
+            <datalist id="category-list">
+              <option value="Food"><option value="Travel"><option value="Books">
+              <option value="Shopping"><option value="Entertainment"><option value="Bills">
+            </datalist>
+          </label>
+          <label>Description
+            <input type="text" id="description" maxlength="100" placeholder="What did you buy?">
+          </label>
+          <label>Amount
+            <input type="number" id="amount" step="0.01" min="0.01" placeholder="0.00" required>
+          </label>
+          <button type="submit" class="btn btn-primary">Add expense</button>
+        </form>
+      </div>
+
+      <div class="card charts">
+        <div>
+          <h3>By category</h3>
+          <div class="chart-box"><canvas id="category-chart"></canvas></div>
+        </div>
+        <div>
+          <h3>By month</h3>
+          <div class="chart-box"><canvas id="month-chart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Expense list -->
+    <section class="card">
+      <div class="list-header">
+        <h3>All expenses</h3>
+        <div class="filters">
+          <input type="search" id="search" placeholder="Search...">
+          <select id="filter-category"><option value="">All categories</option></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Category</th><th>Description</th><th class="right">Amount</th><th></th></tr>
+          </thead>
+          <tbody id="expense-body"></tbody>
+        </table>
+        <p id="empty" class="empty hidden">No expenses found. Add your first one above 👆</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
