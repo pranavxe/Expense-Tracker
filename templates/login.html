@@ -1,0 +1,56 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In | Expense Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="container auth-container">
+    <section class="card auth-card">
+      <h1>Welcome back</h1>
+      <p class="auth-subtitle">Log in to manage your expenses.</p>
+
+      {% if error %}
+        <p class="auth-error" role="alert">{{ error }}</p>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label for="email">Email address
+          <input
+            id="email"
+            name="email"
+            type="email"
+            maxlength="254"
+            autocomplete="email"
+            required
+          >
+        </label>
+
+        <label for="password">Password
+          <input
+            id="password"
+            name="password"
+            type="password"
+            maxlength="128"
+            autocomplete="current-password"
+            required
+          >
+        </label>
+
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </form>
+
+      <p class="auth-switch">
+        Don't have an account?
+        <a href="{{ url_for('register') }}">Create one</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>
+```

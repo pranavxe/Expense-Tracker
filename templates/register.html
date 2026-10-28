@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | Expense Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="container auth-container">
+    <section class="card auth-card">
+      <h1>Create your account</h1>
+      <p class="auth-subtitle">Start managing your expenses privately.</p>
+
+      {% if error %}
+        <p class="auth-error" role="alert">{{ error }}</p>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('register') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label for="name">Full name
+          <input id="name" name="name" type="text" maxlength="80"
+                 autocomplete="name" required>
+        </label>
+
+        <label for="email">Email address
+          <input id="email" name="email" type="email" maxlength="254"
+                 autocomplete="email" required>
+        </label>
+
+        <label for="password">Password
+          <input id="password" name="password" type="password"
+                 minlength="8" maxlength="128"
+                 autocomplete="new-password" required>
+        </label>
+
+        <label for="confirm_password">Confirm password
+          <input id="confirm_password" name="confirm_password" type="password"
+                 minlength="8" maxlength="128"
+                 autocomplete="new-password" required>
+        </label>
+
+        <button class="btn btn-primary" type="submit">Create account</button>
+      </form>
+
+      <p class="auth-switch">
+        Already registered?
+        <a href="{{ url_for('login') }}">Log in</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>

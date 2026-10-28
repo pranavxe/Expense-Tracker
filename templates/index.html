@@ -2,18 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expense Tracker</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <h1>💸 Expense<span>Tracker</span></h1>
-      <a class="btn btn-ghost" href="/export">⬇ Export CSV</a>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <h1>Expense<span>Tracker</span></h1>
+
+    <div class="header-actions">
+      <span class="welcome-user">
+        Welcome, {{ user.name }}
+      </span>
+
+      <a class="btn btn-ghost" href="{{ url_for('export_csv') }}">
+        Export CSV
+      </a>
+
+      <form method="POST" action="{{ url_for('logout') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-ghost">Log out</button>
+      </form>
     </div>
-  </header>
+  </div>
+</header>
+
 
   <main class="container">
     <!-- Summary cards -->

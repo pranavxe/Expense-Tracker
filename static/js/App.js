@@ -16,12 +16,38 @@ if (hasChart) {
 
 /* ---------- helpers ---------- */
 
-async function api(url, options) {
-  const res = await fetch(url, options);
+
+async function api(url, options = {}) {
+  const method = (options.method || "GET").toUpperCase();
+  const headers = new Headers(options.headers || {});
+
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
+    const csrfToken = document.querySelector(
+      'meta[name="csrf-token"]'
+    )?.content;
+
+    if (!csrfToken) {
+      throw new Error("Security token missing. Refresh the page and try again.");
+    }
+
+    headers.set("X-CSRF-Token", csrfToken);
+  }
+
+  const res = await fetch(url, {
+    ...options,
+    method,
+    headers,
+  });
+
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Something went wrong.");
+
+  if (!res.ok) {
+    throw new Error(data.error || "Something went wrong.");
+  }
+
   return data;
 }
+
 
 function toast(message, isError = false) {
   const el = $("toast");

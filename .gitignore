@@ -1,5 +1,23 @@
+﻿# Python cache
 __pycache__/
-*.pyc
-expenses.db
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Local databases and backups
+*.db
+*.sqlite
+*.sqlite3
+*-backup*
+*.bak
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Exports and local editor files
 expenses_export.csv
 .vscode/
